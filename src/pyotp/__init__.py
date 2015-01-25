@@ -1,7 +1,7 @@
 from pyotp.otp import OTP
 from pyotp.hotp import HOTP
 from pyotp.totp import TOTP
-import utils
+from . import utils
 
 import base64
 import random
@@ -11,8 +11,8 @@ VERSION = '1.3.0'
 
 
 def random_base32(length=16, random=random.SystemRandom(),
-                  chars=base64._b32alphabet.values()):
+                  chars=[chr(c) for c in base64._b32alphabet]):
     return ''.join(
         random.choice(chars)
-        for i in xrange(length)
+        for i in range(length)
     )

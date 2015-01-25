@@ -31,11 +31,11 @@ class OTP(object):
             self.digest,
         ).digest()
         
-        offset = ord(hmac_hash[19]) & 0xf
-        code = ((ord(hmac_hash[offset]) & 0x7f) << 24 |
-            (ord(hmac_hash[offset + 1]) & 0xff) << 16 |
-            (ord(hmac_hash[offset + 2]) & 0xff) << 8 |
-            (ord(hmac_hash[offset + 3]) & 0xff))
+        offset = hmac_hash[19] & 0xf
+        code = ((hmac_hash[offset] & 0x7f) << 24 |
+            (hmac_hash[offset + 1] & 0xff) << 16 |
+            (hmac_hash[offset + 2] & 0xff) << 8 |
+            (hmac_hash[offset + 3] & 0xff))
         return code % 10 ** self.digits
     
     def byte_secret(self):
@@ -47,8 +47,8 @@ class OTP(object):
         bytestring, which is fed to the HMAC
         along with the secret
         """
-        result = []
+        result = bytearray()
         while int != 0:
-            result.append(chr(int & 0xFF))
+            result.append(int & 0xFF)
             int = int >> 8
-        return ''.join(reversed(result)).rjust(padding, '\0')
+        return bytes(reversed(result)).rjust(padding, b'\0')
