@@ -11,7 +11,7 @@ VERSION = '1.3.0'
 
 
 def random_base32(length=16, random=random.SystemRandom(),
-                  chars=[chr(c) for c in base64._b32alphabet]):
+                  chars=list('ABCDEFGHIJKLMNOPQRSTUVWXYZ234567')):
     return ''.join(
         random.choice(chars)
         for i in range(length)

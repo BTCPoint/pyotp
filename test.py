@@ -76,6 +76,9 @@ class TOTPExampleValuesFromTheRFC(unittest.TestCase):
             totp.provisioning_uri('mark@percival', issuer_name='FooCorp!'),
             'otpauth://totp/FooCorp%21:mark@percival?secret=wrn3pqx5uqxqvnqr&issuer=FooCorp%21')
 
+    def testRandomKeyGeneration(self):
+        self.assertEqual(len(pyotp.random_base32()), 16)
+        self.assertEqual(len(pyotp.random_base32(length=20)), 20)
 
 class StringComparisonTest(unittest.TestCase):
     def testComparisons(self):

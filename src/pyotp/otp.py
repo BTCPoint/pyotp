@@ -30,7 +30,8 @@ class OTP(object):
             self.int_to_bytestring(input),
             self.digest,
         ).digest()
-        
+
+        hmac_hash = bytearray(hmac_hash)
         offset = hmac_hash[19] & 0xf
         code = ((hmac_hash[offset] & 0x7f) << 24 |
             (hmac_hash[offset + 1] & 0xff) << 16 |
@@ -51,4 +52,4 @@ class OTP(object):
         while int != 0:
             result.append(int & 0xFF)
             int = int >> 8
-        return bytes(reversed(result)).rjust(padding, b'\0')
+        return bytearray(reversed(result)).rjust(padding, b'\0')

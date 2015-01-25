@@ -1,4 +1,7 @@
-import urllib.parse
+try:
+    from urllib.parse import quote
+except ImportError:
+    from urllib import quote
 
 
 def build_uri(secret, name, initial_count=None, issuer_name=None):
@@ -28,11 +31,11 @@ def build_uri(secret, name, initial_count=None, issuer_name=None):
     base = 'otpauth://%s/' % otp_type
 
     if issuer_name:
-        issuer_name = urllib.parse.quote(issuer_name)
+        issuer_name = quote(issuer_name)
         base += '%s:' % issuer_name
 
     uri = '%(base)s%(name)s?secret=%(secret)s' % {
-        'name': urllib.parse.quote(name, safe='@'),
+        'name': quote(name, safe='@'),
         'secret': secret,
         'base': base,
     }
