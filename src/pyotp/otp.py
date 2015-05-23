@@ -18,8 +18,8 @@ class OTP(object):
         self.digits = digits
         self.digest = digest
         self.secret = s
-    
-    def generate_otp(self, input):
+
+    def generate_otp(self, inp):
         """
         @param [Integer] input the number used seed the HMAC
         Usually either the counter, or the computed integer
@@ -27,29 +27,30 @@ class OTP(object):
         """
         hmac_hash = hmac.new(
             self.byte_secret(),
-            self.int_to_bytestring(input),
+            self.int_to_bytestring(inp),
             self.digest,
         ).digest()
 
         hmac_hash = bytearray(hmac_hash)
         offset = hmac_hash[19] & 0xf
         code = ((hmac_hash[offset] & 0x7f) << 24 |
-            (hmac_hash[offset + 1] & 0xff) << 16 |
-            (hmac_hash[offset + 2] & 0xff) << 8 |
-            (hmac_hash[offset + 3] & 0xff))
+                (hmac_hash[offset + 1] & 0xff) << 16 |
+                (hmac_hash[offset + 2] & 0xff) << 8 |
+                (hmac_hash[offset + 3] & 0xff))
         return code % 10 ** self.digits
-    
+
     def byte_secret(self):
         return base64.b32decode(self.secret, casefold=True)
-    
-    def int_to_bytestring(self, int, padding=8):
+
+    @staticmethod
+    def int_to_bytestring(i, padding=8):
         """
         Turns an integer to the OATH specified
         bytestring, which is fed to the HMAC
         along with the secret
         """
         result = bytearray()
-        while int != 0:
-            result.append(int & 0xFF)
-            int = int >> 8
+        while i != 0:
+            result.append(i & 0xFF)
+            i >>= 8
         return bytearray(reversed(result)).rjust(padding, b'\0')

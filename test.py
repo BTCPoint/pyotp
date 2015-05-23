@@ -1,4 +1,3 @@
-
 import datetime
 import os
 import sys
@@ -80,6 +79,7 @@ class TOTPExampleValuesFromTheRFC(unittest.TestCase):
         self.assertEqual(len(pyotp.random_base32()), 16)
         self.assertEqual(len(pyotp.random_base32(length=20)), 20)
 
+
 class StringComparisonTest(unittest.TestCase):
     def testComparisons(self):
         self.assertTrue(pyotp.utils.strings_equal("", ""))
@@ -109,7 +109,7 @@ class Timecop(object):
     def frozen_datetime(self):
         class FrozenDateTime(datetime.datetime):
             @classmethod
-            def now(cls):
+            def now(cls, **kwargs):
                 return cls.fromtimestamp(timecop.freeze_timestamp)
 
         timecop = self

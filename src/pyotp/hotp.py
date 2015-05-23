@@ -36,4 +36,3 @@ class HOTP(OTP):
             initial_count=initial_count,
             issuer_name=issuer_name,
         )
-

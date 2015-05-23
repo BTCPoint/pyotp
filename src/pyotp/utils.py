@@ -25,7 +25,7 @@ def build_uri(secret, name, initial_count=None, issuer_name=None):
     @return [String] provisioning uri
     """
     # initial_count may be 0 as a valid param
-    is_initial_count_present = (initial_count != None)
+    is_initial_count_present = (initial_count is not None)
 
     otp_type = 'hotp' if is_initial_count_present else 'totp'
     base = 'otpauth://%s/' % otp_type
@@ -48,6 +48,7 @@ def build_uri(secret, name, initial_count=None, issuer_name=None):
 
     return uri
 
+
 def strings_equal(s1, s2):
     """
     Timing-attack resistant string comparison.
@@ -62,6 +63,7 @@ def strings_equal(s1, s2):
         # comparison function, which is probably more reliable than ours.
         # Use it if available.
         from hmac import compare_digest
+
         return compare_digest(s1, s2)
     except ImportError:
         pass

@@ -1,7 +1,8 @@
-from pyotp.otp import OTP
-from pyotp import utils
 import datetime
 import time
+
+from pyotp.otp import OTP
+from pyotp import utils
 
 
 class TOTP(OTP):
